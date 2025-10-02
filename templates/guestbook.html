@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/guestbook.css">
+    <link rel="stylesheet" href="/static/guestbook.js">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css">
+
+    <title>Hi!</title>
+</head>
+<body>
+    <h1>HELLO {{user}}</h1>
+    {% if user == "unknown" %}
+    <p> I don't think I know who you are. Could you throw a <pre>?userName=something</pre> at the end of the old url there for me? </p>
+    {% endif %}
+    <a href="/guestbook">Go to guestbook</a>
+
+    <h1>Hello from Render</h1>
+    {{ % if name %}}
+    <h2>and hello to {{name}}</h2>
+    {{% endif %}}
+
+
+
+</body>
+</html>
