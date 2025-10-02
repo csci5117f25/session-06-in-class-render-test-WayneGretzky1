@@ -19,3 +19,10 @@ pipenv run gunicorn server:app
 ## Before render
 
 Before render you will need to set up a more production-grade backend server process. We will do this together in lecture, once that's done you should update the command above for starting the server to be the **production grade** server.
+
+# PSQL
+
+\pset pager off
+\dt
+\d guestbook
+SELECT \* FROM guestbook;

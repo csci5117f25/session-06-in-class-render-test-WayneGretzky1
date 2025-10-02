@@ -1,27 +1,50 @@
 
-from flask import Flask, redirect, render_template, session, url_for, request
+from flask import Flask, redirect, render_template, session, url_for, request, jsonify
 import os
 import json
 from urllib.parse import quote_plus, urlencode
 from authlib.integrations.flask_client import OAuth
-from db import setup
+from db import setup, get_people, add_person
 
 
+DATABASE_URL = os.environ['DATABASE_URL']
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"]
 
-def initialize_db():
+with app.app_context():
     setup()
 
+
+
 @app.route('/', methods=['GET'])
-def main():
+def home():
     user_name = request.args.get("userName", "unknown")
-    return render_template('main.html', user=user_name) 
+    return render_template('home.html', user=user_name) 
 
 
-@app.route('/guestbook', methods=['GET', 'POST'])
-def guestbook():
-    return render_template('guestbook.html') 
+@app.route("/guestbook", methods=["GET"])
+def show_guestbook():
+    people = get_people()  # your DB query
+    return render_template("guestbook.html", people=people)
+
+
+@app.route("/guestbook", methods=["POST"])
+def submit_guestbook():
+    data = request.get_json()
+    name = data.get("name")
+
+    if name:
+        add_person(name)
+        return jsonify({"name": name}), 200
+    else:
+        return jsonify({"error": "Name is required"}), 400
+
+
+@app.route("/guestbook/entries", methods=["GET"])
+def get_guestbook_entries():
+    people = get_people()
+    formatted = [{"id": p[0], "name": p[1]} for p in people]
+    return jsonify(formatted)
 
 
 
